@@ -24,6 +24,7 @@ defmodule FactionWeb.APIAuthPlugTest do
     assert {_res_conn, ^user} = run(APIAuthPlug.fetch(with_auth_header(conn, access_token), @pow_config))
     assert {res_conn, ^user} = run(APIAuthPlug.renew(with_auth_header(conn, renewal_token), @pow_config))
     assert %{private: %{api_access_token: renewed_access_token, api_renewal_token: renewed_renewal_token}} = res_conn
+    assert access_token != renewed_access_token
 
     assert {_res_conn, nil} = run(APIAuthPlug.fetch(with_auth_header(conn, access_token), @pow_config))
     assert {_res_conn, nil} = run(APIAuthPlug.renew(with_auth_header(conn, renewal_token), @pow_config))

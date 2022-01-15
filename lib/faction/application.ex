@@ -15,9 +15,10 @@ defmodule Faction.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Faction.PubSub},
       # Start the Endpoint (http/https)
-      FactionWeb.Endpoint
+      FactionWeb.Endpoint,
       # Start a worker by calling: Faction.Worker.start_link(arg)
       # {Faction.Worker, arg}
+      Pow.Store.Backend.MnesiaCache
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

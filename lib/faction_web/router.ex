@@ -26,7 +26,7 @@ defmodule FactionWeb.Router do
 
 
   pipeline :api_protected do
-    plug Pow.Plug.RequireAuthenticated, error_handler: Faction.APIAuthErrorHandler
+    plug Pow.Plug.RequireAuthenticated, error_handler: FactionWeb.APIAuthErrorHandler
   end
 
   scope "/" do
@@ -46,13 +46,11 @@ defmodule FactionWeb.Router do
   # Auth protected routes
   scope "/", FactionWeb do
     pipe_through [:browser, :browser_protected]
+
+    resources "/games", GameController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", FactionWeb do
-  #   pipe_through :api
-  # end
-
+  # Unprotected api routes
   scope "/api/v1", FactionWeb.API.V1, as: :api_v1 do
     pipe_through :api
 
@@ -61,10 +59,11 @@ defmodule FactionWeb.Router do
     post "/session/renew", SessionController, :renew
   end
 
+  # Protected api routes
   scope "/api/v1", FactionWeb.API.V1, as: :api_v1 do
     pipe_through [:api, :api_protected]
 
-    # Your protected API endpoints here
+    resources "/games", GameController
   end
 
   # Enables the Swoosh mailbox preview in development.

@@ -1,0 +1,47 @@
+<.form let={f} for={@changeset} action={@action}>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= label f, :name %>
+  <%= text_input f, :name %>
+  <%= error_tag f, :name %>
+
+  <%= label f, :description %>
+  <%= textarea f, :description %>
+  <%= error_tag f, :description %>
+
+  <%= label f, :is_private %>
+  <%= checkbox f, :is_private %>
+  <%= error_tag f, :is_private %>
+
+  <%= label f, :adjudication_rate %>
+  <%= text_input f, :adjudication_rate %>
+  <%= error_tag f, :adjudication_rate %>
+
+  <%= label f, :adjudication_time %>
+  <%= time_select f, :adjudication_time %>
+  <%= error_tag f, :adjudication_time %>
+
+  <%= label f, :adjudicate_on_weekends %>
+  <%= checkbox f, :adjudicate_on_weekends %>
+  <%= error_tag f, :adjudicate_on_weekends %>
+
+  <%= label f, :communication_type %>
+  <%= text_input f, :communication_type %>
+  <%= error_tag f, :communication_type %>
+
+  <%= label f, :instant_adjudication %>
+  <%= checkbox f, :instant_adjudication %>
+  <%= error_tag f, :instant_adjudication %>
+
+  <%= label f, :is_anonymous %>
+  <%= checkbox f, :is_anonymous %>
+  <%= error_tag f, :is_anonymous %>
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+</.form>

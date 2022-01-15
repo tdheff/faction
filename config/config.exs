@@ -53,7 +53,8 @@ config :faction, :pow,
   repo: Faction.Repo,
   extensions: [PowResetPassword, PowEmailConfirmation],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
-  mailer_backend: FactionWeb.Pow.Mailer
+  mailer_backend: FactionWeb.Pow.Mailer,
+  cache_store_backend: Pow.Store.Backend.MnesiaCache
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

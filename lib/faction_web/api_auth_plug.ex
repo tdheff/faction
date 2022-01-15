@@ -66,6 +66,10 @@ defmodule FactionWeb.APIAuthPlug do
          {:ok, token}        <- verify_token(conn, signed_token, config),
          {_user, metadata}   <- CredentialsCache.get(store_config, token) do
 
+      # TODO - is this a problem?
+      PersistentSessionCache.delete(store_config, metadata[:renewal_token])
+      CredentialsCache.delete(store_config, token)
+
       Conn.register_before_send(conn, fn conn ->
         PersistentSessionCache.delete(store_config, metadata[:renewal_token])
         CredentialsCache.delete(store_config, token)

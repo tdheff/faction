@@ -1,5 +1,6 @@
 defmodule Faction.Users.User do
   use Ecto.Schema
+  @timestamps_opts [type: :utc_datetime]
   use Pow.Ecto.Schema
   use Pow.Extension.Ecto.Schema,
     extensions: [PowResetPassword, PowEmailConfirmation]

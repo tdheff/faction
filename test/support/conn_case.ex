@@ -17,6 +17,8 @@ defmodule FactionWeb.ConnCase do
 
   use ExUnit.CaseTemplate
 
+  @pow_config [otp_app: :faction]
+
   using do
     quote do
       # Import conveniences for testing with connections
@@ -33,7 +35,17 @@ defmodule FactionWeb.ConnCase do
 
   setup tags do
     pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Faction.Repo, shared: not tags[:async])
+    # create_test_user()
+    conn = Phoenix.ConnTest.build_conn()
+    authed_conn = Pow.Plug.assign_current_user(conn, %Faction.Users.User{email: "test@example.com", id: 1}, @pow_config)
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    {:ok, conn: conn, authed_conn: authed_conn}
+  end
+
+  def recycle_conn(conn) do
+    assigns = conn.assigns
+    conn
+    |> Phoenix.ConnTest.recycle()
+    |> Map.put(:assigns, assigns)
   end
 end

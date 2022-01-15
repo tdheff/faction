@@ -1,0 +1,53 @@
+<h1>Show Game</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @game.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @game.description %>
+  </li>
+
+  <li>
+    <strong>Is private:</strong>
+    <%= @game.is_private %>
+  </li>
+
+  <li>
+    <strong>Adjudication rate:</strong>
+    <%= @game.adjudication_rate %>
+  </li>
+
+  <li>
+    <strong>Adjudication time:</strong>
+    <%= @game.adjudication_time %>
+  </li>
+
+  <li>
+    <strong>Adjudicate on weekends:</strong>
+    <%= @game.adjudicate_on_weekends %>
+  </li>
+
+  <li>
+    <strong>Communication type:</strong>
+    <%= @game.communication_type %>
+  </li>
+
+  <li>
+    <strong>Instant adjudication:</strong>
+    <%= @game.instant_adjudication %>
+  </li>
+
+  <li>
+    <strong>Is anonymous:</strong>
+    <%= @game.is_anonymous %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.game_path(@conn, :edit, @game) %></span> |
+<span><%= link "Back", to: Routes.game_path(@conn, :index) %></span>

@@ -1,0 +1,42 @@
+<h1>Listing Games</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Is private</th>
+      <th>Adjudication rate</th>
+      <th>Adjudication time</th>
+      <th>Adjudicate on weekends</th>
+      <th>Communication type</th>
+      <th>Instant adjudication</th>
+      <th>Is anonymous</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for game <- @games do %>
+    <tr>
+      <td><%= game.name %></td>
+      <td><%= game.description %></td>
+      <td><%= game.is_private %></td>
+      <td><%= game.adjudication_rate %></td>
+      <td><%= game.adjudication_time %></td>
+      <td><%= game.adjudicate_on_weekends %></td>
+      <td><%= game.communication_type %></td>
+      <td><%= game.instant_adjudication %></td>
+      <td><%= game.is_anonymous %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.game_path(@conn, :show, game) %></span>
+        <span><%= link "Edit", to: Routes.game_path(@conn, :edit, game) %></span>
+        <span><%= link "Delete", to: Routes.game_path(@conn, :delete, game), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Game", to: Routes.game_path(@conn, :new) %></span>
