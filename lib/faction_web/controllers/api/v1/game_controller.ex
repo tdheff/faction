@@ -12,7 +12,8 @@ defmodule FactionWeb.API.V1.GameController do
   end
 
   def create(conn, %{"game" => game_params}) do
-    with {:ok, %Game{} = game} <- Games.create_game(game_params) do
+    user = Pow.Plug.current_user(conn)
+    with {:ok, %Game{} = game} <- Games.create_game(Map.put(game_params, "owner_user_id", user.id)) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.api_v1_game_path(conn, :show, game))

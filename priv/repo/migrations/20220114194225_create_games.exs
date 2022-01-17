@@ -12,6 +12,7 @@ defmodule Faction.Repo.Migrations.CreateGames do
       add :communication_type, :string
       add :instant_adjudication, :boolean, default: false, null: false
       add :is_anonymous, :boolean, default: false, null: false
+      add :owner_user_id, references(:users, on_delete: :nothing)
 
       timestamps()
     end

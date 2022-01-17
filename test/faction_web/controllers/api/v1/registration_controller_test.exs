@@ -4,7 +4,7 @@ defmodule FactionWeb.API.V1.RegistrationControllerTest do
   @password "secret1234"
 
   describe "create/2" do
-    @valid_params %{"user" => %{"email" => "test@example.com", "password" => @password, "password_confirmation" => @password}}
+    @valid_params %{"user" => %{"name" => "some name", "email" => "test@example.com", "password" => @password, "password_confirmation" => @password}}
     @invalid_params %{"user" => %{"email" => "invalid", "password" => @password, "password_confirmation" => ""}}
 
     test "with valid params", %{conn: conn} do

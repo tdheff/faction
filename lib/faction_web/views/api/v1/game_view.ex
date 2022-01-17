@@ -1,6 +1,7 @@
 defmodule FactionWeb.API.V1.GameView do
   use FactionWeb, :view
   alias FactionWeb.API.V1.GameView
+  alias FactionWeb.API.V1.PlayerView
 
   def render("index.json", %{games: games}) do
     %{data: render_many(games, GameView, "game.json")}
@@ -21,7 +22,8 @@ defmodule FactionWeb.API.V1.GameView do
       adjudicate_on_weekends: game.adjudicate_on_weekends,
       communication_type: game.communication_type,
       instant_adjudication: game.instant_adjudication,
-      is_anonymous: game.is_anonymous
+      is_anonymous: game.is_anonymous,
+      players: render_many(Map.get(game, :players), PlayerView, "index.json")
     }
   end
 end

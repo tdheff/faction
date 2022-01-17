@@ -5,10 +5,13 @@ defmodule Faction.GamesTest do
 
   describe "games" do
     alias Faction.Games.Game
+    alias Faction.Games.Player
 
     import Faction.GamesFixtures
+    import Faction.UsersFixtures
 
     @invalid_attrs %{adjudicate_on_weekends: nil, adjudication_rate: nil, adjudication_time: nil, communication_type: nil, description: nil, instant_adjudication: nil, is_anonymous: nil, is_private: nil, name: nil}
+    @invalid_player_attrs %{game_id: nil, user_id: nil, nickname: nil}
 
     test "list_games/0 returns all games" do
       game = game_fixture()
@@ -21,7 +24,8 @@ defmodule Faction.GamesTest do
     end
 
     test "create_game/1 with valid data creates a game" do
-      valid_attrs = %{adjudicate_on_weekends: true, adjudication_rate: "day", adjudication_time: ~T[14:00:00], communication_type: "always", description: "some description", instant_adjudication: true, is_anonymous: true, is_private: true, name: "some name"}
+      user = user_fixture()
+      valid_attrs = %{adjudicate_on_weekends: true, adjudication_rate: "day", adjudication_time: ~T[14:00:00], communication_type: "always", description: "some description", instant_adjudication: true, is_anonymous: true, is_private: true, name: "some name", owner_user_id: user.id}
 
       assert {:ok, %Game{} = game} = Games.create_game(valid_attrs)
       assert game.adjudicate_on_weekends == true
@@ -70,6 +74,27 @@ defmodule Faction.GamesTest do
     test "change_game/1 returns a game changeset" do
       game = game_fixture()
       assert %Ecto.Changeset{} = Games.change_game(game)
+    end
+
+    test "list_players/0 returns all players" do
+      game = game_fixture()
+      user = user_fixture()
+      player = player_fixture(user.id, game.id)
+
+      assert Games.list_game_players(game.id) == [player]
+    end
+
+    test "create_player/1 with valid data creates a player" do
+      game = game_fixture()
+      user = user_fixture()
+
+      valid_attrs = %{nickname: "nickname", user_id: user.id, game_id: game.id}
+
+      assert {:ok, %Player{} = _player} = Games.create_player(valid_attrs)
+    end
+
+    test "create_player/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Games.create_player(@invalid_player_attrs)
     end
   end
 end

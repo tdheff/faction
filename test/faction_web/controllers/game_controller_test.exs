@@ -2,6 +2,7 @@ defmodule FactionWeb.GameControllerTest do
   use FactionWeb.ConnCase
 
   import Faction.GamesFixtures
+  import Faction.UsersFixtures
 
   @create_attrs %{adjudicate_on_weekends: true, adjudication_rate: "day", adjudication_time: ~T[14:00:00], communication_type: "always", description: "some description", instant_adjudication: true, is_anonymous: true, is_private: true, name: "some name"}
   @update_attrs %{adjudicate_on_weekends: false, adjudication_rate: "hour", adjudication_time: ~T[15:01:01], communication_type: "none", description: "some updated description", instant_adjudication: false, is_anonymous: false, is_private: false, name: "some updated name"}
@@ -25,7 +26,9 @@ defmodule FactionWeb.GameControllerTest do
 
   describe "create game" do
     test "redirects to show when data is valid", %{authed_conn: conn} do
-      conn = post(conn, Routes.game_path(conn, :create), game: @create_attrs)
+      user = user_fixture()
+      IO.inspect Map.put(@create_attrs, :owner_user_id, user.id)
+      conn = post(conn, Routes.game_path(conn, :create), game: Map.put(@create_attrs, :owner_user_id, user.id))
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.game_path(conn, :show, id)

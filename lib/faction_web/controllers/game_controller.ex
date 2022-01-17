@@ -15,7 +15,8 @@ defmodule FactionWeb.GameController do
   end
 
   def create(conn, %{"game" => game_params}) do
-    case Games.create_game(game_params) do
+    user = Pow.Plug.current_user(conn)
+    case Games.create_game(Map.put(game_params, "owner_user_id", user.id)) do
       {:ok, game} ->
         conn
         |> put_flash(:info, "Game created successfully.")

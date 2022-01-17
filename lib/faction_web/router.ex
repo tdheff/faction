@@ -63,7 +63,9 @@ defmodule FactionWeb.Router do
   scope "/api/v1", FactionWeb.API.V1, as: :api_v1 do
     pipe_through [:api, :api_protected]
 
-    resources "/games", GameController
+    resources "/games", GameController do
+      resources "/players", PlayerController
+    end
   end
 
   # Enables the Swoosh mailbox preview in development.

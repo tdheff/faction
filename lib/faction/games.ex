@@ -7,6 +7,7 @@ defmodule Faction.Games do
   alias Faction.Repo
 
   alias Faction.Games.Game
+  alias Faction.Games.Player
 
   @doc """
   Returns the list of games.
@@ -35,7 +36,9 @@ defmodule Faction.Games do
       ** (Ecto.NoResultsError)
 
   """
-  def get_game!(id), do: Repo.get!(Game, id)
+  def get_game!(id) do
+    Repo.get!(Game, id)
+  end
 
   @doc """
   Creates a game.
@@ -100,5 +103,47 @@ defmodule Faction.Games do
   """
   def change_game(%Game{} = game, attrs \\ %{}) do
     Game.changeset(game, attrs)
+  end
+
+  @doc """
+  Returns the list of players in a game.
+
+  ## Examples
+
+      iex> list_games(game_id)
+      [%Player{}, ...]
+
+  """
+  def list_game_players(game_id) do
+    Repo.all(from p in Player, where: p.game_id == ^game_id)
+    |> Repo.preload(:user)
+  end
+
+  @doc """
+  Creates a player, effectively adding a user to a game.
+
+  ## Examples
+
+      iex> create_player(%{game_id: 1, user_id: 2, nickname: hey})
+      {:ok, %Player{...}}
+
+      iex> create_game(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_player(attrs \\ %{}) do
+    insert =
+      %Player{}
+      |> Player.changeset(attrs)
+      |> Repo.insert()
+
+    case insert do
+      {:ok, player} ->
+        fetched_player =
+          Repo.get!(Player, player.id)
+          |> Repo.preload(:user)
+        {:ok, fetched_player}
+      {:error, changeset} -> {:error, changeset}
+    end
   end
 end

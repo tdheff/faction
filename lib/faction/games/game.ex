@@ -17,14 +17,17 @@ defmodule Faction.Games.Game do
     field :is_private, :boolean, default: false
     field :name, :string
 
+    belongs_to :owner_user, Faction.Users.User
+    has_many :players, Faction.Games.Player
+
     timestamps()
   end
 
   @doc false
   def changeset(game, attrs) do
     game
-    |> cast(attrs, [:name, :description, :is_private, :adjudication_rate, :adjudication_time, :adjudicate_on_weekends, :communication_type, :instant_adjudication, :is_anonymous])
-    |> validate_required([:name, :description, :is_private, :adjudication_rate, :adjudication_time, :adjudicate_on_weekends, :communication_type, :instant_adjudication, :is_anonymous])
+    |> cast(attrs, [:name, :description, :is_private, :adjudication_rate, :adjudication_time, :adjudicate_on_weekends, :communication_type, :instant_adjudication, :is_anonymous, :owner_user_id])
+    |> validate_required([:name, :description, :is_private, :adjudication_rate, :adjudication_time, :adjudicate_on_weekends, :communication_type, :instant_adjudication, :is_anonymous, :owner_user_id])
     |> validate_inclusion(:adjudication_rate, adjudication_rates())
     |> validate_inclusion(:communication_type, communication_types())
   end

@@ -8,7 +8,7 @@ defmodule FactionWeb.API.V1.SessionControllerTest do
   setup do
     user =
       %User{}
-      |> User.changeset(%{email: "test@example.com", password: @password, password_confirmation: @password})
+      |> User.changeset(%{name: "some user", email: "test@example.com", password: @password, password_confirmation: @password})
       |> Repo.insert!()
 
     {:ok, user: user}
